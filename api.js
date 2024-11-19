@@ -62,10 +62,22 @@ async function deleteProduct(req, res) {
   res.status(202).json({ message: `Product with ID: ${id} marked for deletion` });
 }
 
+/**
+ * Update a product
+ * @param {object} req
+ * @param {object} res
+ */
+async function updateProduct(req, res) {
+  const { id } = req.params;
+  console.log(`Product with ID: ${id} updated with data:`, req.body);
+  res.status(200).json({ message: `Product with ID: ${id} updated successfully` });
+}
+
 module.exports = autoCatch({
   handleRoot,
   listProducts,
   getProduct,
   createProduct, // Add the new method here
   deleteProduct,
+  updateProduct,
 });
