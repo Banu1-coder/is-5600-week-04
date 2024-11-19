@@ -1,5 +1,7 @@
 const Products = require('./products');
 const path = require('path');
+const autoCatch = require('./lib/auto-catch'); // Adjust the path if needed
+
 
 /**
  * Handle the root route
@@ -17,25 +19,13 @@ function handleRoot(req, res) {
  */
 async function listProducts(req, res) {
   const { offset = 0, limit = 25, tag } = req.query;
-
-  try {
-    const products = await Products.list({
+  res.json(
+    await Products.list({
       offset: Number(offset),
       limit: Number(limit),
       tag,
-    });
-
-    const total = tag
-      ? (await Products.list({ tag })).length
-      : (await Products.list({})).length;
-
-    res.json({
-      products,
-      total,
-    });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+    })
+  );
 }
 
 /**
@@ -45,21 +35,16 @@ async function listProducts(req, res) {
  */
 async function getProduct(req, res, next) {
   const { id } = req.params;
+  const product = await Products.get(id);
 
-  try {
-    const product = await Products.get(id);
-
-    if (!product) {
-      return next(); // Pass control to the next middleware (404 handler)
-    }
-
-    res.json(product);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+  if (!product) {
+    return next(); // Pass control to 404 handler
   }
+
+  res.json(product);
 }
 
-module.exports = {
+module.exports = autoCatch{
   handleRoot,
   listProducts,
   getProduct,
