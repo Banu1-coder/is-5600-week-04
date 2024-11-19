@@ -25,7 +25,6 @@ async function listProducts(req, res) {
       tag,
     });
 
-    // Get total count after filtering
     const total = tag
       ? (await Products.list({ tag })).length
       : (await Products.list({})).length;
@@ -51,8 +50,7 @@ async function getProduct(req, res, next) {
     const product = await Products.get(id);
 
     if (!product) {
-      // If no product found, pass control to the next middleware (e.g., a 404 handler)
-      return next();
+      return next(); // Pass control to the next middleware (404 handler)
     }
 
     res.json(product);
