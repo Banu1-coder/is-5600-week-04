@@ -51,9 +51,21 @@ async function createProduct(req, res) {
   res.json(req.body); // Echo the request body as the response for testing
 }
 
+/**
+ * Delete a product
+ * @param {object} req
+ * @param {object} res
+ */
+async function deleteProduct(req, res) {
+  const { id } = req.params;
+  console.log(`Product with ID: ${id} marked for deletion`);
+  res.status(202).json({ message: `Product with ID: ${id} marked for deletion` });
+}
+
 module.exports = autoCatch({
   handleRoot,
   listProducts,
   getProduct,
   createProduct, // Add the new method here
+  deleteProduct,
 });

@@ -19,6 +19,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', api.handleRoot);
 app.get('/products', api.listProducts);
 app.get('/products/:id', api.getProduct);
+app.post('/products', api.createProduct);
+
+// New DELETE route
+app.delete('/products/:id', api.deleteProduct); // Register the new delete method
+
+// New PUT route to update a product
+app.put('/products/:id', api.updateProduct); // Register the update method
 
 // Error-handling middleware
 app.use(middleware.handleError);

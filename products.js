@@ -1,7 +1,7 @@
 const fs = require('fs').promises;
 const path = require('path');
 
-const productsFile = path.join(__dirname, 'data/full-products.json');
+const productsFile = path.join(__dirname, 'data', 'products.json');
 
 /**
  * List all products
@@ -33,7 +33,18 @@ async function get(id) {
   return products.find(product => product.id === id) || null;
 }
 
+/**
+ * Delete a product
+ * @param {string} id
+ * @returns {Promise<void>}
+ */
+async function remove(id) {
+  console.log(`Mock delete: Product with ID ${id} would be deleted`);
+  // Placeholder: In a real implementation, you'd remove the product from your data store.
+}
+
 module.exports = {
   list,
   get,
+  remove,
 };
